@@ -10,12 +10,14 @@ namespace XDocGen.Common.Doc
     {
         public Member(string name, string xmlDoc)
         {
-            this.Name = name;
-            this.XmlDocumentation = xmlDoc;
+            this.name = name;
+            this.xmlDocumentation = xmlDoc;
         }
 
-        public string Name { get; set; }
+        private readonly string name;
+        public string Name { get { return this.name; } }
 
-        public string XmlDocumentation { get; set; }
+        private readonly string xmlDocumentation;
+        public string XmlDocumentation { get { return this.xmlDocumentation; } }
     }
 }

@@ -12,10 +12,11 @@ namespace XDocGen.Common.Doc
     {
         public ClassMember(ISymbol symbol) : base(symbol.Name, symbol.GetDocumentationCommentXml())
         {
-            this.Kind = symbol.GetClassMemberKind();
+            this.kind = symbol.GetClassMemberKind();
         }
 
-        public ClassMemberKind Kind { get; set; }
+        private readonly ClassMemberKind kind;
+        public ClassMemberKind Kind { get { return this.kind; } }
 
         public override string ToString()
         {

@@ -9,11 +9,13 @@ namespace XDocGen.Common
 {
     public class Documentation
     {
-        public readonly IList<Namespace> Namespaces;
-
         public Documentation(IList<Namespace> namespaces)
         {
-            this.Namespaces = namespaces;
+            this.namespaces = namespaces;
         }
+
+        private readonly IList<Namespace> namespaces;
+        public IList<Namespace> Namespaces { get { return this.namespaces; } }
+
     }
 }

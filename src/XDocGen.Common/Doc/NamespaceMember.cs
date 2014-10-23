@@ -12,10 +12,19 @@ namespace XDocGen.Common.Doc
     {
         public NamespaceMember(ISymbol symbol, IList<ClassMember> classMembers, IList<NamespaceMember> innerMembers) : base(symbol.Name, symbol.GetDocumentationCommentXml())
         {
-            this.Members = classMembers;
-            this.InnerNamespaceMembers = innerMembers;
-            this.Kind = symbol.GetNamespaceMemberKind();
+            this.members = classMembers;
+            this.innerNamespaceMembers = innerMembers;
+            this.kind = symbol.GetNamespaceMemberKind();
         }
+
+        private readonly NamespaceMemberKind kind;
+        public NamespaceMemberKind Kind { get { return this.kind; } }
+
+        private readonly IList<ClassMember> members;
+        public IList<ClassMember> Members { get { return this.members; } }
+
+        private readonly IList<NamespaceMember> innerNamespaceMembers;
+        public IList<NamespaceMember> InnerNamespaceMembers { get { return this.innerNamespaceMembers; } }
 
         public static NamespaceMember Create(INamespaceOrTypeSymbol symbol)
         {
@@ -36,12 +45,6 @@ namespace XDocGen.Common.Doc
 
             return new NamespaceMember(symbol, classMembers, innerMembers);
         }
-
-        public NamespaceMemberKind Kind { get; set; }
-
-        public IList<ClassMember> Members;
-
-        public IList<NamespaceMember> InnerNamespaceMembers { get; set; }
 
         public override string ToString()
         {
