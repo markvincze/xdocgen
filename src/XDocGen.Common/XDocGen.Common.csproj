@@ -74,9 +74,11 @@
     <Compile Include="Doc\NamespaceMemberKind.cs" />
     <Compile Include="Extensions\INamespaceSymbolExtensions.cs" />
     <Compile Include="Extensions\ISymbolExtensions.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\SymbolKindExtensions.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Xml\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

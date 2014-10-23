@@ -8,8 +8,6 @@ namespace XDocGen.Common.Doc
 {
     public class Namespace
     {
-        public string FullName;
-
         public string Name;
 
         public IList<Namespace> ChildNamespaces;
@@ -19,7 +17,6 @@ namespace XDocGen.Common.Doc
         public Namespace(string name, IList<NamespaceMember> members)
         {
             this.Name = name;
-            this.FullName = name;
             this.Members = members;
         }
 
@@ -33,7 +30,7 @@ namespace XDocGen.Common.Doc
 
         public override string ToString()
         {
-            return String.Format("Namespace {0}", this.FullName);
+            return String.Format("Namespace {0}", this.Name);
         }
     }
 }

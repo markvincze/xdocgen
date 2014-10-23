@@ -42,13 +42,13 @@ namespace XDocGen.Common
             {
                 var compilation = await project.GetCompilationAsync();
 
-                this.GenerateForProject(compilation.GlobalNamespace, compilation.Assembly, namespaces);
+                this.GenerateForProject(compilation.GlobalNamespace, String.Empty, compilation.Assembly, namespaces);
             }
 
             return namespaces.Values.ToList();
         }
 
-        private void GenerateForProject(INamespaceSymbol ns, IAssemblySymbol projectAssembly, Dictionary<string, Namespace> namespaceDict)
+        private void GenerateForProject(INamespaceSymbol ns, string namespaceAccumulator, IAssemblySymbol projectAssembly, Dictionary<string, Namespace> namespaceDict)
         {
             if (!ns.DoesContainMemberFromAssembly(projectAssembly))
             {
@@ -66,23 +66,37 @@ namespace XDocGen.Common
                 Console.WriteLine(member.GetDocumentationCommentXml());
             }
 
-            this.AddOrMergeNamespace(namespaceDict, ns.Name, new Namespace(ns.Name, classMembers));
+            string nsFullName = this.ConcatNamespaceName(namespaceAccumulator, ns.Name);
+
+            this.AddOrMergeNamespace(namespaceDict, new Namespace(nsFullName, classMembers));
 
             foreach (var innerNs in ns.GetNamespaceMembers())
             {
-                this.GenerateForProject(innerNs, projectAssembly, namespaceDict);
+                this.GenerateForProject(innerNs, nsFullName, projectAssembly, namespaceDict);
             }
         }
 
-        private void AddOrMergeNamespace(Dictionary<string, Namespace> namespacesDict, string name, Namespace ns)
+        string ConcatNamespaceName(string ancestors, string ns)
         {
-            if (namespacesDict.ContainsKey(name))
+            if(String.IsNullOrEmpty(ancestors))
             {
-                namespacesDict[name] = namespacesDict[name].Merge(ns);
+                return ns;
             }
             else
             {
-                namespacesDict.Add(name, ns);
+                return String.Format("{0}.{1}", ancestors, ns);
+            }
+        }
+
+        private void AddOrMergeNamespace(Dictionary<string, Namespace> namespacesDict, Namespace ns)
+        {
+            if (namespacesDict.ContainsKey(ns.Name))
+            {
+                namespacesDict[ns.Name] = namespacesDict[ns.Name].Merge(ns);
+            }
+            else
+            {
+                namespacesDict.Add(ns.Name, ns);
             }
         }
 
